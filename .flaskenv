@@ -1,0 +1,2 @@
+FLASK_APP=edatribe
+FLASK_ENV=development
