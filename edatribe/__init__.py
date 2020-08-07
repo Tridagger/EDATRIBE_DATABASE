@@ -1,7 +1,7 @@
 from flask import Flask
 from edatribe.config import config
 import os
-from edatribe.extensions import db, login_manager
+from edatribe.extensions import db, login_manager, bootstrap
 from edatribe.blueprints.admin import admin_bp
 from edatribe.blueprints.home import home_bp
 from edatribe.blueprints.auth import auth_bp
@@ -26,6 +26,7 @@ def create_app(config_name=None):
 def register_extensions(app): 
     db.init_app(app)
     login_manager.init_app(app)
+    bootstrap.init_app(app)
 
 
 

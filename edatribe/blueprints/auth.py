@@ -1,9 +1,9 @@
 # 用户登录认证蓝图
-from flask import render_template, flash, redirect, url_for, Blueprint, request
+from flask import render_template, flash, redirect, url_for, Blueprint, request, url_for
 from flask_login import login_user, logout_user, login_required, current_user
 from edatribe.forms import LoginForm
 from edatribe.models import Admin
-
+from edatribe.utils import redirect_back
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -16,22 +16,23 @@ def index():
 # 登录
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    if current_user.is_authenticated:
+        return redirect(url_for('auth.index'))
 
-        if not username or not password:  # 没输入用户名或密码
-            return redirect(url_for('login'))
-
-        user = Admin.query.first()
-        # 验证用户名和密码是否一致
-        if username == user.username and user.validate_password(password):
-            login_user(user)  # 登入用户
-            return redirect('/')  # 重定向
-
-        return redirect(url_for('auth.login'))  # 重定向回登录页面
-
-    return render_template('auth/login.html')  # 请求为非POST就返回到这里了
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        admin = Admin.query.first()
+        if admin:
+            if username == admin.username and admin.validate_password(password):
+                login_user(admin)
+                flash('Welcome back.', 'info')
+                return redirect(url_for('home.index'))
+            flash('Invalid username or password.', 'warning')
+        else:
+            flash('No account.', 'warning')
+    return render_template('auth/login.html', form=form)
 
 # 注销
 @auth_bp.route('/logout')
