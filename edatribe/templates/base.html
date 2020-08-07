@@ -8,13 +8,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
         <link rel="stylesheet"
-              href="{{ url_for('static', filename='css/%s.min.css' % request.cookies.get('theme', 'perfect_blue')) }}"
+              href="{{ url_for('static', filename='css/perfect_blue.min.css') }}"
               type="text/css">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     {% endblock head %}
 </head>
-<body>
 
+<body>
 {% block nav %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
@@ -24,28 +24,29 @@
 {% endblock nav %}
 
 <main class="container">
-
-    {% block content %}
-    {% endblock content %}
-
-    {% block footer %}
-        <footer>
-            <p class="float-left">
-                <small> 
-                </small>
-            </p>
-            <p class="float-right">
-                <small>
-                    {% if current_user.is_authenticated %}
-                        <a href="{{ url_for('auth.logout', next=request.full_path) }}">Logout</a>
-                    {% else %}
-                        <a href="{{ url_for('auth.login', next=request.full_path) }}">Login</a>
-                    {% endif %}
-                </small>
-            </p>
-        </footer>
-    {% endblock footer %}
+    {% block content %} {% endblock content %}
 </main>
+</body>
+
+<footer>
+    <div>
+    {% block footer %}
+    <p class="float-left">
+        <small>  &copy; 2020 - EDATRIBE
+        </small>
+    </p>
+    <p class="float-right">
+        <small>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('auth.logout', next=request.full_path) }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('auth.login', next=request.full_path) }}">Login</a>
+            {% endif %}
+        </small>
+    </p>
+    {% endblock footer %}
+    </div>
+</footer>
 
 {% block scripts %}
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.slim.min.js') }}"></script>
@@ -54,5 +55,4 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
 {% endblock %}
 
-</body>
 </html>

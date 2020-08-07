@@ -29,11 +29,11 @@ img {
 }
 
 footer {
-    padding: 10px 0 40px;
+    padding: 10px 0 0 0;
     color: #999;
     border-top: 1px solid #e5e5e5;
     position: fixed;
-    width: 80%;
+    width: 100%;
     bottom: 0;
 }
 
