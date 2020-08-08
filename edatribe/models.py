@@ -1,6 +1,6 @@
 """
 
-这里说数据模型
+这里是数据模型
 
 """
 from datetime import datetime
@@ -29,7 +29,7 @@ class Anime(db.Model):
     name_cn = db.Column(db.String)
     name_en = db.Column(db.String)
     episodes = db.Column(db.Integer)
-    filesize = db.Column(db.Integer)  # 字节
+    filesize = db.Column(db.Integer)  # 单位是字节
     update_time = db.Column(db.DateTime, default=datetime.utcnow, index=True)
-    is_dual = db.Column(db.Boolean)
+    is_dual = db.Column(db.Integer)
     

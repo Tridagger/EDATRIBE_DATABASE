@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form %}
 
 {% block content %}
+<h2>新增页面</h2>
 <div>
-    <h2>
-        这是新增页
-    </h2>
+    {{ render_form(form) }}
 </div>
 {% endblock content %}
