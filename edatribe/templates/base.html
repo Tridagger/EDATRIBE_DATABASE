@@ -4,55 +4,73 @@
 
 <head>
     {% block head %}
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-        <link rel="stylesheet"
-              href="{{ url_for('static', filename='css/perfect_blue.min.css') }}"
-              type="text/css">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfect_blue.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     {% endblock head %}
 </head>
 
 <body>
-{% block nav %}
+    {% block nav %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('home.index') }}">英配部落</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+                aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav mr-auto">
+                    {{ render_nav_item('home.index', '主页') }}
+                    {% if current_user.is_authenticated %}
+                    {{ render_nav_item('admin.anime', '番剧管理') }}
+                    {{ render_nav_item('admin.cc', '字幕管理') }}
+                    {{ render_nav_item('admin.tab', '标签管理') }}
+                    {{ render_nav_item('admin.other', '其他管理') }}
+                    {% endif %}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if current_user.is_authenticated %}
+                    {{ render_nav_item('admin.post', '新增') }}
+                    {% endif %}
+                </ul>
+            </div>    
         </div>
     </nav>
-{% endblock nav %}
+    {% endblock nav %}
 
-<main class="container">
-    {% block content %} {% endblock content %}
-</main>
+    <main class="container">
+        {% block content %} {% endblock content %}
+    </main>
 </body>
 
 <footer>
     <div>
-    {% block footer %}
-    <p class="float-left">
-        <small>  &copy; 2020 - EDATRIBE
-        </small>
-    </p>
-    <p class="float-right">
-        <small>
-            {% if current_user.is_authenticated %}
+        {% block footer %}
+        <p class="float-left">
+            <small> &copy; 2020 - EDATRIBE
+            </small>
+        </p>
+        <p class="float-right">
+            <small>
+                {% if current_user.is_authenticated %}
                 <a href="{{ url_for('auth.logout', next=request.full_path) }}">Logout</a>
-            {% else %}
+                {% else %}
                 <a href="{{ url_for('auth.login', next=request.full_path) }}">Login</a>
-            {% endif %}
-        </small>
-    </p>
-    {% endblock footer %}
+                {% endif %}
+            </small>
+        </p>
+        {% endblock footer %}
     </div>
 </footer>
 
 {% block scripts %}
-    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.slim.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.slim.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
 {% endblock %}
 
 </html>
